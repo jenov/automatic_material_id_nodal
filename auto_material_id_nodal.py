@@ -17,6 +17,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 import bpy, math, random
 
+# activando material id en render layers:
+rls = bpy.context.scene.render.layers.active
+rls.use_pass_material_index = True
+
 def automaticId():
     # para dar auto ids materials:
     st = 1
