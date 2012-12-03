@@ -27,8 +27,7 @@ def resetAutomaticId():
     # para resetear todo a cero:
     st = 0
     for mt in bpy.data.materials:
-        if mt.users != 0:
-            mt.pass_index = st
+        mt.pass_index = st
    
 def crearNodosNecesarios():
 
@@ -48,9 +47,8 @@ def crearNodosNecesarios():
     ##########################################################
     ids = []
     for mt in bpy.data.materials:
-        if mt.pass_index > 0:
-            if mt.users != 0:
-                ids.append(mt.pass_index)
+        if mt.pass_index > 0 and mt.users != 0:
+            ids.append(mt.pass_index)
 
     def rmRepetidos(listado):
         listado = list(set(listado)) # <-- elimina duplicados
