@@ -5,7 +5,7 @@ If you use this script in your scene, this delete all nodes of composition that 
 It is advisable to make a full copy of your scene or save the scene with another name.
 
 Usage:
-1 For active use in the preferences box render: Render Layers activate Material Index.
+1 Check Render Layers is activated Material Index True.
 
 2 Open the composer of nodes and a text editor panel simultaneously.
 
