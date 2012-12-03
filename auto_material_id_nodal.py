@@ -27,7 +27,8 @@ def resetAutomaticId():
     # para resetear todo a cero:
     st = 0
     for mt in bpy.data.materials:
-       mt.pass_index = st
+        if mt.users != 0:
+            mt.pass_index = st
    
 def crearNodosNecesarios():
 
@@ -48,7 +49,8 @@ def crearNodosNecesarios():
     ids = []
     for mt in bpy.data.materials:
         if mt.pass_index > 0:
-            ids.append(mt.pass_index)
+            if mt.users != 0:
+                ids.append(mt.pass_index)
 
     def rmRepetidos(listado):
         listado = list(set(listado)) # <-- elimina duplicados
@@ -150,11 +152,11 @@ def crearNodosNecesarios():
     links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],vie.inputs[0])
 
 
-################################################
+############################################################
 # for restore all ids to 0 value, uncoment this:
 #resetAutomaticId()
-# an coment automaticId function
-################################################
+# an coment automaticId, and crearNodosNecesarios functions
+############################################################
 
 automaticId()
 ################################################################
