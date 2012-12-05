@@ -17,6 +17,35 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 import bpy, math, random
 
+def rmMaterialsUnused():
+    mat_list = []
+    escenas = bpy.data.scenes
+    # recorriendo todas las escenas en busca de materiales usados:
+    for i in range(len(escenas)):
+        for ob in escenas[i].objects:
+            # si es de tipo objeto entonces
+            if ob.type == 'MESH' or ob.type == 'SURFACE' or ob.type == 'META':
+                if ob.data.materials == '' or len(ob.material_slots.items()) != 0:
+                    # si no esta vacio o tiene mas de 0 slots entonces me lo recorro y voy agregando los materiales al array
+                    for ms in ob.material_slots:
+                        mat_list.append(ms.material)
+                        
+    # limpiando lista de repetidos:
+    def rmRepetidos(listado):
+        listado = list(set(listado)) # elimina duplicados
+        return listado
+    
+    # limpiando lista de repetidos:
+    mat_list = rmRepetidos(mat_list)
+    
+    for m in bpy.data.materials:
+        # si no estan en mi lista es que no estan siendo usados, por lo tanto los elimino:
+        if m not in mat_list:
+            m.use_fake_user = False
+            m.user_clear()
+            bpy.data.materials.remove(m)
+
+
 escenas = bpy.data.scenes
 #materiales=bpy.data.materials
 if "Material_ID" not in escenas:
@@ -202,3 +231,9 @@ if "Material_ID" not in escenas:
         
         # Creating all nodes:
         crearNodosNecesarios()
+
+#############################################################################
+# If you used this script several times and doubled too many materials 
+# times you can clean some materials using this function: rmMaterialsUnused()
+#############################################################################
+#rmMaterialsUnused()
