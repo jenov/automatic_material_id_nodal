@@ -30,7 +30,23 @@ if "Material_ID" not in escenas:
             return True
         else:
             return False
-    if chequeoEscena(): 
+    if chequeoEscena():
+        
+        def getMateriales():
+            # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
+            mat_list = []
+            for ob in bpy.data.scenes[scn.name].objects:
+                if ob.type == 'MESH' or ob.type == 'SURFACE' or ob.type == 'META':
+                    if ob.data.materials == '' or len(ob.material_slots.items()) != 0:
+                        for ms in ob.material_slots:
+                            mat_list.append(ms.material)
+            # limpiando lista de repetidos:
+            def rmRepetidos(listado):
+                listado = list(set(listado)) # elimina duplicados
+                return listado
+            # limpiando lista de repetidos:
+            mat_list = rmRepetidos(mat_list)
+            return mat_list
         
         # activando material id en render layers:
         rls = bpy.context.scene.render.layers.active
@@ -40,13 +56,15 @@ if "Material_ID" not in escenas:
             # para dar auto ids materials:
             st = 1
             for mt in bpy.data.materials:
-               mt.pass_index = st=st+1
+                if mt in getMateriales():
+                    mt.pass_index = st=st+1
             
         def resetAutomaticId():
             # para resetear todo a cero:
             st = 0
             for mt in bpy.data.materials:
-                mt.pass_index = st
+                if mt in getMateriales():
+                    mt.pass_index = st
            
         def crearNodosNecesarios():
         
@@ -66,7 +84,7 @@ if "Material_ID" not in escenas:
             ##########################################################
             ids = []
             for mt in bpy.data.materials:
-                if mt.pass_index > 0 and mt.users != 0:
+                if mt.pass_index > 0 and mt.users != 0 and mt in getMateriales():
                     ids.append(mt.pass_index)
         
             def rmRepetidos(listado):
