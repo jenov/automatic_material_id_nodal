@@ -3,9 +3,9 @@ This script create a full copy scene.
 
 Usage:
 
-1 Open the text editor.
+1 Open the composer of nodes (in mode: compositing nodes "tree_type") and a text editor panel simultaneously.
 
-2 In the texteditor: press button "new" and copy the script inside, or open .py script. And run it.
+2 In the texteditor: press button "new" and copy the script inside, or open .py script, and run it.
 
 3 Press f12 to pull a render and allocate the id.
 
