@@ -41,9 +41,9 @@ def rmMaterialsUnused():
     for m in bpy.data.materials:
         # si no estan en mi lista es que no estan siendo usados, por lo tanto los elimino:
         if m not in mat_list:
-            m.use_fake_user = False
-            m.user_clear()
-            bpy.data.materials.remove(m)
+            if m.use_fake_user == False: # respetaremos los fake
+                m.user_clear()
+                bpy.data.materials.remove(m)
 
 
 escenas = bpy.data.scenes
@@ -233,7 +233,7 @@ if "Material_ID" not in escenas:
         crearNodosNecesarios()
 
 #############################################################################
-# If you used this script several times and doubled too many materials 
+# If you used this script several times and doubled too many materials
 # times you can clean some materials using this function: rmMaterialsUnused()
 #############################################################################
 #rmMaterialsUnused()
