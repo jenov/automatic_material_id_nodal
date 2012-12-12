@@ -212,8 +212,12 @@ def materialIDNodatl():
                         pass
             
                 # conectando viewer y composite:
-                links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],comp.inputs[0])
-                links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],vie.inputs[0])
+                if numero_de_mix_a != 0: # si hay mas de 1 mix add:
+                    links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],comp.inputs[0])
+                    links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],vie.inputs[0])
+                else: # si no hay mix add por que solo hay 1 unico id:
+                    links.new(c_nodos_mix_m[0].outputs[0],comp.inputs[0])
+                    links.new(c_nodos_mix_m[0].outputs[0],vie.inputs[0])
             
             ############################################################
             # materialIDNodatl options: 
