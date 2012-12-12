@@ -17,13 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 import bpy, math, random
 
-def resetAutomaticId():
-    # para resetear todo a cero:
-    st = 0
-    for mt in bpy.data.materials:
-        if mt in getMateriales():
-            mt.pass_index = st
-
 def rmMaterialsUnused():
     mat_list = []
     escenas = bpy.data.scenes
@@ -71,8 +64,6 @@ def materialIDNodal():
                 return False
             
         if chequeoEscena():
-
-            resetAutomaticId()
             
             def getMateriales():
                 # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
@@ -89,6 +80,16 @@ def materialIDNodal():
                 # limpiando lista de repetidos:
                 mat_list = rmRepetidos(mat_list)
                 return mat_list
+            
+            # restore all id:
+            def resetAutomaticId():
+                # para resetear todo a cero:
+                st = 0
+                for mt in bpy.data.materials:
+                    if mt in getMateriales():
+                        mt.pass_index = st
+            
+            resetAutomaticId()
             
             # activando material id en render layers:
             rls = bpy.context.scene.render.layers.active
@@ -249,9 +250,6 @@ def materialIDNodal():
 
 # use for create material id nodes:
 materialIDNodal()
-
-# for restore all ids to 0 value, uncoment this:
-#resetAutomaticId()
 
 #############################################################################
 # If you used this script several times and doubled too many materials
