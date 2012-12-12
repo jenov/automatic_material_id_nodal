@@ -17,6 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 import bpy, math, random
 
+def resetAutomaticId():
+    # para resetear todo a cero:
+    st = 0
+    for mt in bpy.data.materials:
+        if mt in getMateriales():
+            mt.pass_index = st
+
 def rmMaterialsUnused():
     mat_list = []
     escenas = bpy.data.scenes
@@ -45,7 +52,9 @@ def rmMaterialsUnused():
                 m.user_clear()
                 bpy.data.materials.remove(m)
 
-def materialIDNodatl():
+
+
+def materialIDNodal():
     escenas = bpy.data.scenes
     #materiales=bpy.data.materials
     if "Material_ID" not in escenas:
@@ -54,12 +63,16 @@ def materialIDNodatl():
         bpy.ops.object.select_all(action='DESELECT')
         scn = bpy.context.scene
         cntxt = bpy.context
+        
         def chequeoEscena():
             if scn.name == "Material_ID":
                 return True
             else:
                 return False
+            
         if chequeoEscena():
+
+            resetAutomaticId()
             
             def getMateriales():
                 # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
@@ -83,17 +96,11 @@ def materialIDNodatl():
             
             def automaticId():
                 # para dar auto ids materials:
-                st = 1
+                st = 0
                 for mt in bpy.data.materials:
                     if mt in getMateriales():
                         mt.pass_index = st=st+1
                 
-            def resetAutomaticId():
-                # para resetear todo a cero:
-                st = 0
-                for mt in bpy.data.materials:
-                    if mt in getMateriales():
-                        mt.pass_index = st
                
             def crearNodosNecesarios():
             
@@ -212,7 +219,7 @@ def materialIDNodatl():
                         pass
             
                 # conectando viewer y composite:
-                if numero_de_mix_a != 0: # si hay mas de 1 mix add:
+                if numero_de_mix_a > 0: # si hay mas de 1 mix add:
                     links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],comp.inputs[0])
                     links.new(c_nodos_mix_a[numero_de_mix_a-1].outputs[0],vie.inputs[0])
                 else: # si no hay mix add por que solo hay 1 unico id:
@@ -220,7 +227,7 @@ def materialIDNodatl():
                     links.new(c_nodos_mix_m[0].outputs[0],vie.inputs[0])
             
             ############################################################
-            # materialIDNodatl options: 
+            # materialIDNodatl options:
             ############################################################
             # for restore all ids to 0 value, uncoment this:
             #resetAutomaticId()
@@ -241,7 +248,10 @@ def materialIDNodatl():
             scn.render.engine = 'BLENDER_RENDER'
 
 # use for create material id nodes:
-materialIDNodatl()
+materialIDNodal()
+
+# for restore all ids to 0 value, uncoment this:
+#resetAutomaticId()
 
 #############################################################################
 # If you used this script several times and doubled too many materials
