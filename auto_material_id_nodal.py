@@ -140,7 +140,7 @@ def materialIDNodal():
                             return i
             
                 # Creando los nodos necesarios:
-                inc = 0.1 #<-- incremento de values
+                inc = 0.001 #<-- incremento de values
                 for i in range(len(ids)):
                     # create ID_MASK node
                     idm = tree.nodes.new('CompositorNodeIDMask')
@@ -156,7 +156,7 @@ def materialIDNodal():
                             
                     #0 es r 1 es g y 2 es b y el 3 el alpha
                     mx.inputs[1].default_value[3] = 1
-                    inc = inc + 0.1 #<-- por cada pasada se incrementa mas el value
+                    inc = inc + 0.001 #<-- por cada pasada se incrementa mas el value
             
                 # Creando adds
                 count_ids = len(ids)
