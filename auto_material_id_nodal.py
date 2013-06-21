@@ -151,11 +151,11 @@ def materialIDNodal():
                     mx = tree.nodes.new('CompositorNodeMixRGB')
                     mx.location = 600,-i*300
                     mx.blend_type = 'MULTIPLY'
-                    for i in range(len(mx.inputs[1].default_value)-1):
+                    for i in range(len(mx.inputs[1].default_value)):
                             mx.inputs[1].default_value[i] = random.random() + inc  #<-- mas el incremento
                             
                     #0 es r 1 es g y 2 es b y el 3 el alpha
-                    #mx.inputs[1].default_value[3] = 0
+                    mx.inputs[1].default_value[3] = 1
                     inc = inc + 0.1 #<-- por cada pasada se incrementa mas el value
             
                 # Creando adds
