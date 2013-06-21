@@ -114,7 +114,8 @@ def materialIDNodal():
                     tree.nodes.remove(n)
             
                 # create input render layer node
-                rl = tree.nodes.new('R_LAYERS')
+                rl = tree.nodes.new('CompositorNodeRLayers')
+                #rl = bpy.ops.node.add_node(type="CompositorNodeRLayers", use_transform=True)
                 rl.location = 0,0
             
                 # averiguando cuantos ids hay y cuales son:
@@ -141,12 +142,12 @@ def materialIDNodal():
                 # Creando los nodos necesarios:
                 for i in range(len(ids)):
                     # create ID_MASK node
-                    idm = tree.nodes.new('ID_MASK')
+                    idm = tree.nodes.new('CompositorNodeIDMask')
                     idm.location = 300,-i*150
                     idm.index = ids[i]
             
                     # create MIX node
-                    mx = tree.nodes.new('MIX_RGB')
+                    mx = tree.nodes.new('CompositorNodeMixRGB')
                     mx.location = 600,-i*300
                     mx.blend_type = 'MULTIPLY'
                     for i in range(len(mx.inputs[1].default_value)-1):
@@ -156,16 +157,16 @@ def materialIDNodal():
                 count_ids = len(ids)
                 for i in range(count_ids-1):
                     # create MIX node
-                    mxa = tree.nodes.new('MIX_RGB')
+                    mxa = tree.nodes.new('CompositorNodeMixRGB')
                     mxa.location = 900+i*250,-i*300
                     mxa.blend_type = 'ADD'
             
                 # create output node
-                comp = tree.nodes.new('COMPOSITE')
+                comp = tree.nodes.new('CompositorNodeComposite')
                 comp.location = 2500,0
             
                 # create VIEWER node
-                vie = tree.nodes.new("VIEWER")
+                vie = tree.nodes.new("CompositorNodeViewer")
                 vie.location = 2500,170
             
             
