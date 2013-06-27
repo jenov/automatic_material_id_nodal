@@ -48,44 +48,43 @@ def rmMaterialsUnused():
 
 
 def materialIDNodal():
-    # switch on nodes
-    cs = bpy.context.scene 
+    # contexto:
+    cs = bpy.context.scene
+
+    # activamos los nodos:
     cs.use_nodes = True
 
+    # nombre de el nuevo clon de escena:
     tipo = "Material_ID"
-    escenas = bpy.data.scenes
 
+    # escenas 
+    escenas = []
+    for s in bpy.data.scenes:
+        escenas.append(s)
+
+    # si no esta el nombre del clon en las escenas:    
     if tipo not in escenas:
-        
-        # Poniendo en todos los screens la escena por defecto Scene:        
-        for i in bpy.data.screens:
-            i.scene = bpy.data.scenes['Scene']
-            
-        # haciendo el full copy de la escena actual:    
+
+        # clonamos la escena actual:
         bpy.ops.scene.new(type='FULL_COPY')
-        
-        # Poniendo en todos los screens la escena nueva Scene.001:        
-        for i in bpy.data.screens:
-            if i.scene.name != tipo:
-                i.scene = bpy.data.scenes['Scene.001']
-                
-        # cambiando el nombre a la nueva copia:
-        bpy.context.scene.name = tipo
-        
-        # Poniendo en todos los screens la escena tipo:        
-        for i in bpy.data.screens:
-            i.scene = bpy.data.scenes[tipo]
-            
-        bpy.ops.object.select_all(action='DESELECT')
-        
-        def chequeoEscena():
+
+        # capturo el nombre de la escena actual:
+        cual = bpy.context.scene.name
+
+        # me recorro las ecenas en busca de la escena actual:
+        for s in bpy.data.scenes:
+            if s.name == cual: #<-- si es la actual
+                s.name = tipo #<-- seteamos el nuevo nombre
+
+        # compruebo la escena:
+        def chequeoEscena(): #<-- si la escena actual se llama como el nuevo clon, entonces true 
             if bpy.context.scene.name == tipo:
                 return True
             else:
                 return False
-        
-        if chequeoEscena():
-                        
+
+        # si es true continuamos con el resto del script:
+        if chequeoEscena():                        
             def getMateriales():
                 # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
                 mat_list = []
