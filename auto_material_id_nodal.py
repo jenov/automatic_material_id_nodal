@@ -89,7 +89,7 @@ def materialIDNodal():
             def getMateriales():
                 # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
                 mat_list = []
-                for ob in bpy.data.scenes[cs.name].objects:
+                for ob in bpy.data.scenes[bpy.context.scene.name].objects:
                     if ob.type == 'MESH' or ob.type == 'SURFACE' or ob.type == 'META':
                         if ob.data.materials == '' or len(ob.material_slots.items()) != 0:
                             for ms in ob.material_slots:
