@@ -56,17 +56,34 @@ def materialIDNodal():
     escenas = bpy.data.scenes
 
     if tipo not in escenas:
+        
+        # Poniendo en todos los screens la escena por defecto Scene:        
+        for i in bpy.data.screens:
+            i.scene = bpy.data.scenes['Scene']
+            
+        # haciendo el full copy de la escena actual:    
         bpy.ops.scene.new(type='FULL_COPY')
-        cs.name = tipo
-        bpy.data.screens['Default'].scene = bpy.data.scenes[tipo]
-        bpy.data.screens['Compositing'].scene = bpy.data.scenes[tipo]
-        bpy.context.screen.scene=bpy.data.scenes[tipo]
+        
+        # Poniendo en todos los screens la escena nueva Scene.001:        
+        for i in bpy.data.screens:
+            if i.scene.name != tipo:
+                i.scene = bpy.data.scenes['Scene.001']
+                
+        # cambiando el nombre a la nueva copia:
+        bpy.context.scene.name = tipo
+        
+        # Poniendo en todos los screens la escena tipo:        
+        for i in bpy.data.screens:
+            i.scene = bpy.data.scenes[tipo]
+            
         bpy.ops.object.select_all(action='DESELECT')
+        
         def chequeoEscena():
-            if cs.name == tipo:
+            if bpy.context.scene.name == tipo:
                 return True
             else:
                 return False
+        
         if chequeoEscena():
                         
             def getMateriales():
