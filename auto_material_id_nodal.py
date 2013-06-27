@@ -48,27 +48,31 @@ def rmMaterialsUnused():
 
 
 def materialIDNodal():
+    # switch on nodes
+    cs = bpy.context.scene 
+    cs.use_nodes = True
+
+    tipo = "Material_ID"
     escenas = bpy.data.scenes
-    #materiales=bpy.data.materials
-    if "Material_ID" not in escenas:
+
+    if tipo not in escenas:
         bpy.ops.scene.new(type='FULL_COPY')
-        bpy.context.scene.name = "Material_ID"
+        cs.name = tipo
+        bpy.data.screens['Default'].scene = bpy.data.scenes[tipo]
+        bpy.data.screens['Compositing'].scene = bpy.data.scenes[tipo]
+        bpy.context.screen.scene=bpy.data.scenes[tipo]
         bpy.ops.object.select_all(action='DESELECT')
-        scn = bpy.context.scene
-        cntxt = bpy.context
-        
         def chequeoEscena():
-            if scn.name == "Material_ID":
+            if cs.name == tipo:
                 return True
             else:
                 return False
-            
         if chequeoEscena():
-            
+                        
             def getMateriales():
                 # obteniendo todos los nombres de los materiales de todos los objetos de la escena actual:
                 mat_list = []
-                for ob in bpy.data.scenes[scn.name].objects:
+                for ob in bpy.data.scenes[cs.name].objects:
                     if ob.type == 'MESH' or ob.type == 'SURFACE' or ob.type == 'META':
                         if ob.data.materials == '' or len(ob.material_slots.items()) != 0:
                             for ms in ob.material_slots:
@@ -252,7 +256,7 @@ def materialIDNodal():
             crearNodosNecesarios()
             # end materialIDNodatl options #############################
             ############################################################
-            scn.render.engine = 'BLENDER_RENDER'
+            cs.render.engine = 'BLENDER_RENDER'
 
 # use for create material id nodes:
 materialIDNodal()
